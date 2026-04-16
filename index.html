@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Fracture Monitoring System</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-badge">KH</div>
+      <div>
+        <h1>AI Fracture Monitoring Center</h1>
+        <p>Korean Hospital Style Diagnostic Platform</p>
+      </div>
+    </div>
+
+    <div class="identity">
+      <div><strong>姓名：</strong><span id="authorName">你的姓名</span></div>
+      <div><strong>学号：</strong><span id="authorId">你的学号</span></div>
+      <div><strong>后端状态：</strong><span id="backendStatus">检测中...</span></div>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="hero card">
+      <div class="hero-text">
+        <span class="tag">AI 의료 보조 진단 시스템</span>
+        <h2>骨折智能监测与分级识别平台</h2>
+        <p>
+          支持图片上传、视频检测、实时监测、骨折程度分析与风险提示。
+          页面采用韩国医院官网风格设计，适配手机与电脑访问。
+        </p>
+      </div>
+    </section>
+
+    <section class="grid">
+      <!-- 图片检测 -->
+      <div class="card upload-card">
+        <div class="section-title">
+          <h3>影像上传诊断</h3>
+          <p>支持拖拽上传图片，快速获得诊断结论。</p>
+        </div>
+
+        <div id="dropZone" class="drop-zone">
+          <input type="file" id="fileInput" accept="image/*" hidden />
+          <p class="drop-title">拖拽图片到这里</p>
+          <p class="drop-sub">或点击下方按钮选择图片</p>
+          <button class="outline-btn" id="selectImageBtn" type="button">选择图片</button>
+        </div>
+
+        <div class="preview-wrap">
+          <img id="previewImage" alt="预览图" />
+          <div id="previewPlaceholder" class="placeholder">图片预览区域</div>
+        </div>
+
+        <button class="primary-btn" id="predictBtn" type="button">开始图片诊断</button>
+      </div>
+
+      <!-- 视频检测 -->
+      <div class="card upload-card">
+        <div class="section-title">
+          <h3>视频检测</h3>
+          <p>上传视频后按帧抽样分析，输出整体结论。</p>
+        </div>
+
+        <input type="file" id="videoInput" accept="video/*" hidden />
+        <div id="videoDropZone" class="drop-zone small">
+          <p class="drop-title">拖拽视频到这里</p>
+          <p class="drop-sub">或点击下方按钮选择视频</p>
+          <button class="outline-btn" id="selectVideoBtn" type="button">选择视频</button>
+        </div>
+
+        <div class="file-name" id="videoFileName">未选择视频</div>
+        <button class="primary-btn" id="videoPredictBtn" type="button">开始视频检测</button>
+      </div>
+
+      <!-- 实时监测 -->
+      <div class="card upload-card">
+        <div class="section-title">
+          <h3>实时监测入口</h3>
+          <p>调用摄像头，抓取当前画面并进行实时辅助判断。</p>
+        </div>
+
+        <div class="camera-wrap">
+          <video id="camera" autoplay playsinline muted></video>
+          <canvas id="cameraCanvas" hidden></canvas>
+          <div id="cameraPlaceholder" class="placeholder">摄像头预览区域</div>
+        </div>
+
+        <div class="camera-actions">
+          <button class="outline-btn" id="startCameraBtn" type="button">开启摄像头</button>
+          <button class="outline-btn" id="stopCameraBtn" type="button">关闭摄像头</button>
+        </div>
+
+        <button class="primary-btn" id="analyzeFrameBtn" type="button">分析当前画面</button>
+      </div>
+    </section>
+
+    <section class="card result-card">
+      <div class="section-title">
+        <h3>诊断结果</h3>
+        <p>以下结果仅供课程项目演示，不作为临床最终结论。</p>
+      </div>
+
+      <div class="result-grid">
+        <div class="result-item">
+          <span class="label">诊断结论</span>
+          <span class="value" id="diagnosisText">-</span>
+        </div>
+        <div class="result-item">
+          <span class="label">骨折类型</span>
+          <span class="value" id="predictionText">-</span>
+        </div>
+        <div class="result-item">
+          <span class="label">骨折程度</span>
+          <span class="value" id="severityText">-</span>
+        </div>
+        <div class="result-item">
+          <span class="label">类别编号</span>
+          <span class="value" id="classIdText">-</span>
+        </div>
+        <div class="result-item">
+          <span class="label">最高置信度</span>
+          <span class="value" id="confidenceText">-</span>
+        </div>
+      </div>
+
+      <div class="explain-box">
+        <h4>模型解释</h4>
+        <p id="explanationText">等待分析结果...</p>
+      </div>
+
+      <div class="probability-panel">
+        <h4>概率分布</h4>
+        <div id="probabilityBars"></div>
+      </div>
+
+      <div id="extraResultBox" class="extra-box"></div>
+      <div id="errorBox" class="error hidden"></div>
+      <div id="loading" class="loading hidden">分析中，请稍候...</div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
